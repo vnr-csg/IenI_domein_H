@@ -1,0 +1,18 @@
+{
+    "files.exclude": {
+        ".devcontainer.json": true,
+        ".imported.lock": true,
+        "**/.gitignore": true,
+        "**/.gitpod.yml": true,
+        "**/.vscode": true,
+        "config/": true,
+        "Dockerfile": true,
+        "setup/": true
+    },
+    "redhat.telemetry.enabled": false,
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "git.autofetch": true,
+    "git.inputValidation": "off",
+    "window.autoDetectColorScheme": true
+}

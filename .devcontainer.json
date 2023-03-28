@@ -1,0 +1,12 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "USERNAME": "dev"
+    }
+  },
+  "postCreateCommand": "sh ./setup/start.sh",
+  "forwardPorts": [
+    80
+  ]
+}
