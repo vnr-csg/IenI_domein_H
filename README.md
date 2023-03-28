@@ -1,8 +1,4 @@
-# Databases Omgeving
-
-[![Codespaces Prebuilds](https://github.com/rijkvp/databases-omgeving/actions/workflows/codespaces/create_codespaces_prebuilds/badge.svg)](https://github.com/rijkvp/databases-omgeving/actions/workflows/codespaces/create_codespaces_prebuilds)
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rijkvp/databases-omgeving)
+# i&i domein H
 
 ## Omgeving openen
 
