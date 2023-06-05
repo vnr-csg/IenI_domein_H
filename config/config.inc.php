@@ -20,7 +20,7 @@ if (check_file_access('/var/lib/phpmyadmin/blowfish_secret.inc.php')) {
     require('/var/lib/phpmyadmin/blowfish_secret.inc.php');
 }
 
-$cfg['Servers'][1]['host'] = '127.0.0.1';
+$cfg['Servers'][1]['host'] = '0.0.0.0';
 $cfg['Servers'][1]['auth_type'] = 'config';
 $cfg['Servers'][1]['user'] = 'user';
 $cfg['Servers'][1]['password'] = 'password';

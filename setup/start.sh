@@ -2,6 +2,8 @@
 ./setup/start-apache.sh
 ./setup/start-mysql.sh
 
+mkdir -p databases
+
 LOCKFILE=".imported.lock"
 if ! test -f "$LOCKFILE"; then
     echo "Databases worden geïmporteerd.."

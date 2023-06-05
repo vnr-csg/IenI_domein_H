@@ -1,10 +1,12 @@
-# i&i domein H
+# Databases Omgeving
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](TODO)
 
 ## Omgeving openen
 
 ### Gitpod
 
-Open deze omgeving in Gitpod door naar `https://gitpod.io/#<url van repository>` te gaan.
+Open deze omgeving in Gitpod door op de bovenstaande knop te drukken of (als dat niet werkt) naar `https://gitpod.io/#<url van repository>` te gaan.
 
 ### GitHub Codespaces
 
@@ -38,6 +40,6 @@ De databases kunnen beheerd worden met phpMyAdmin die is geconfigueerd om automa
 
 ## Versies
 
-De Docker image is gebaseerd op Ubuntu LTS 20.04 LTS met PHP 8.1 en MySQL 8.0.
+De Docker image is gebaseerd op Ubuntu LTS 22.04 LTS met PHP 8.1 en MySQL 8.0.
 
 
