@@ -5,8 +5,15 @@
       "USERNAME": "dev"
     }
   },
-  "postCreateCommand": "sh ./setup/start.sh",
+  "postStartCommand": "sh ./setup/start.sh",
   "forwardPorts": [
     80
-  ]
+  ],
+  "portsAttributes": {
+    "80": {
+      "label": "Databases Omgeving",
+      "onAutoForward": "openPreview",
+      "elevateIfNeeded": true
+    }
+  }
 }
