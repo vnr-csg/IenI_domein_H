@@ -138,7 +138,7 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
                                 <button class="btn btn-outline-primary" name="import" value="1" data-bs-toggle="tooltip" data-bs-html="true" title="<b>Importeer</b> de databases uit de databases map.">
                                     <i class="bi bi-arrow-bar-down"></i>
                                     Importeren</button>
-                                <a href="/phpmyadmin" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-html="true" title="Open <b>phpMyAdmin</b> voor het verdere beheer van MySQL." target="_blank">
+                                <a href="/phpmyadmin/" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-html="true" title="Open <b>phpMyAdmin</b> voor het verdere beheer van MySQL." target="_blank">
                                     <i class="bi bi-database-fill-gear"></i>
                                     phpMyAdmin
                                 </a>
