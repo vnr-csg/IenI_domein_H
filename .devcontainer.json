@@ -15,5 +15,12 @@
       "onAutoForward": "openPreview",
       "elevateIfNeeded": true
     }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client"
+      ]
+    }
   }
 }
