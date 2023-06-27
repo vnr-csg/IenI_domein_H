@@ -1,4 +1,4 @@
-# Latest Ubuntu LTS
+# Based on Ubuntu LTS
 FROM ubuntu:jammy 
 
 # Install packages
@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y \
     locales \
     nano \
     vim \
-    netcat \
-    htop \
     php php-mysql php-zip php-json php-mbstring \
     mysql-server \
     phpmyadmin \

@@ -4,14 +4,9 @@ tasks:
   - name: Startup
     command: sh ./setup/start.sh
 ports:
-  # Open Apache HTTP port
+  # Open Apache HTTP port automatically
   - port: 80
     onOpen: open-browser
-  # Ignore MySQL ports
-  - port: 33060
-    onOpen: ignore
-  - port: 3306
-    onOpen: ignore
 vscode:
   extensions:
     - bmewburn.vscode-intelephense-client
