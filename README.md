@@ -22,16 +22,17 @@ Verder is er toegang tot het lesmateriaal dat door de docent wordt voorbereid.
 
 ### Docent
 
-Docenten kunnen lesmateriaal voorbereiden door het in de `lesmateriaal/public` map te plaatsen. Ook kunnen standaard databases worden toevoegd door ze in de `lesmateriaal/standaard-databases` map te plaatsen.
+Docenten kunnen lesmateriaal voorbereiden door het in de `lesmateriaal/public` map te plaatsen. 
+Ook kunnen standaard databases worden toevoegd die automatisch worden ingeladen door ze in de `lesmateriaal/standaard-databases` map te plaatsen.
 
 ## MySQL
 
-De MySQL database is toegankelijk via het serveraddres `127.0.0.1`.
-Er zijn twee standaard database gebruikers beschikbaar onder het standaardwachtwoord `password`:
-- `user` met alle permissies
-- `readonly` met readonly (alleen-lezen) premissies
+De MySQL database is toegankelijk via het serveradres `127.0.0.1`.
+Er zijn twee database gebruikers beschikbaar onder het standaardwachtwoord `password`:
+- `user` met alle rechten
+- `readonly` met readonly (alleen-lezen) rechten
 
-Voorbeeld van PHP-code om verbinding te maken met MySQL:
+Een voorbeeld van PHP-code om verbinding te maken met MySQL:
 ```php
 $mysqli = new mysqli("127.0.0.1", "user", "password", "databasenaam");
 ```
