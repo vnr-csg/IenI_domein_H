@@ -23,7 +23,7 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
         <div class="container mx-3 my-2 shadow p-5 bg-body rounded">
             <h1 class="fw-bold text-center mb-4">
                 <i class="bi bi-database"></i>
-                Databases Omgeving
+                Domein H Databases (v0.52)
             </h1>
             <div class="row">
                 <div class="col m-1 px-5 py-1">
