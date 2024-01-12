@@ -1,0 +1,88 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,600,700|Train+One|Tourney:wght@100');
+
+html,body {
+    height: 100%;
+}
+
+body {
+    margin: 5% 10% 5% 10%;
+    background-color: #DDD;
+    font-family: 'Raleway', serif;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+h1,h4 {
+    font-size: 5rem;
+    font-family: 'Train One', sans;
+    color: #54008B;
+}
+
+h2,h5 {
+    font-size: 1.75rem;
+    font-family: 'Tourney', sans;
+    color: #00703C;
+    margin-top: -1%;
+    margin-bottom: 3%;
+}
+
+h4 {
+    font-size: 2.5rem;
+    margin-top: -4%;
+}
+
+h5 {
+    font-size: 0.875rem;
+}
+
+h3 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+p {
+    text-align: justify;
+}
+
+main {
+    margin-top: 2%;
+    padding: 2% 35% 2% 10%;
+    background-color: white;
+    border: 1px solid #EEE;
+}
+
+.leerling {
+    background-color: white;
+    border: 1px solid lightslategray;
+    padding: 1%;
+    margin: 1%;
+}
+
+#aanhef {
+    display: flex;
+}
+
+#lid,#factuur {
+    border-collapse: collapse;
+    margin-top: 2%;
+    font-size: 1.5rem;
+}
+
+#factuur {
+    margin-left: 25%;
+}
+
+table {
+
+}
+
+td,th {
+    padding: 0.2em;
+    padding-top: 0.4em;
+}

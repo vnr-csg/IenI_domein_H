@@ -1,0 +1,87 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,600,700|Noto+Serif');
+
+html,body {
+    height: 100%;
+}
+
+body {
+    margin: 5% 10% 5% 10%;
+    background-color: bisque;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+h1 {
+    font-size: 3rem;
+    font-family: 'Raleway', sans;
+    color: indianred;
+}
+
+h2 {
+    font-size: 2rem;
+    font-family: 'Raleway', sans;
+    color: grey;
+}
+
+h3, h4 {
+    font-size: 1.8rem;
+    font-family: 'Noto Serif', serif;
+    margin-right: 10%;
+    display: inline;
+}
+
+h3 {
+    color: dodgerblue;
+}
+
+h4 {
+    color: grey;
+}
+
+main {
+    display: flex;
+    margin-top: 2%;
+}
+
+.leerling {
+    background-color: white;
+    border: 1px solid lightslategray;
+    padding: 1%;
+    margin: 1%;
+}
+
+.leerling:hover {
+    background-color: azure;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: #FFF;
+    font-family: 'Noto Serif', serif;
+    text-align: center;
+    border: 2px solid lightslategray;
+    color: #888;
+}
+
+thead {
+    background-color: lightslategray;
+}
+
+th {
+    color: #DDD;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+tr {
+    border-bottom: 1px solid slategray;
+}
+
+td,th {
+    padding: 0.2em;
+    padding-top: 0.4em;
+}
