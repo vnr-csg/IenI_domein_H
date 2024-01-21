@@ -38,6 +38,9 @@
                                 <i class="bi bi-person-workspace"></i>
                                 Extern
                             </h2>
+                            <ul>
+                            <li><a href="https://www.ted.com/talks/susan_etlinger_what_do_we_do_with_all_this_big_data?subtitle=nl" target="_blank"><strong>H1O02 TED big data</strong></a></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col m-2 px-5 py-1">
