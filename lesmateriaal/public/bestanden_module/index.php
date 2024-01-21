@@ -24,7 +24,7 @@
                             </h2>
                             <?php
                                 $files = scandir("H1/");
-                                $ignored_files = [".", ".."];
+                                $ignored_files = [".", "..","assets"];
                                 echo "<ul>";
                                 foreach ($files as $file) {
                                     if (!in_array($file, $ignored_files)) {
