@@ -39,7 +39,9 @@
                                 Extern
                             </h2>
                             <ul>
-                            <li><a href="https://www.ted.com/talks/susan_etlinger_what_do_we_do_with_all_this_big_data?subtitle=nl" target="_blank"><strong>H1O02 TED big data</strong></a></li>
+                                <li><a href="https://www.ted.com/talks/susan_etlinger_what_do_we_do_with_all_this_big_data?subtitle=nl" target="_blank"><strong>H1O02 TED big data</strong></a></li>
+                                <li><a href="https://iknowwhereyourcatlives.com" target="_blank"><strong>H1O09 Kattendata</strong></a></li>
+                                <li><a href="https://www.youtube.com/watch?v=bjvIpI-1w84" target="_blank"><strong>H1O11 NULL</strong></a></li>
                             </ul>
                         </div>
                     </div>
