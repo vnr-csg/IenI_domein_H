@@ -8,7 +8,7 @@ mysql $mysql_opt -s -r -e 'show databases' -N 2>/dev/null | while read db_name; 
 	if [ ! -f "$DEFAULT_DIR/$db_name.sql" ]; then
             echo "Export $db_name"
 	        mkdir -p $EXPORT_DIR
-            mysqldump $mysql_opt --complete-insert --single-transaction --compact "$db_name" 2>/dev/null > "$EXPORT_DIR/$db_name.sql"
+            mysqldump $mysql_opt --complete-insert --single-transaction --default-character-set=utf8mb4 "$db_name" 2>/dev/null > "$EXPORT_DIR/$db_name.sql"
 	fi
     fi
 done
