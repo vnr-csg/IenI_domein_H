@@ -1,7 +1,7 @@
 <?php
 include "db.inc.php";
 
-$result = $rootDbConn->query("SHOW databases");
+$result = $writeDbConn->query("SHOW databases");
 
 $databases = array();
 

@@ -2,81 +2,51 @@
 
 include "db.inc.php";
 
-$inputJSON = file_get_contents('php://input');
-$input = json_decode($inputJSON, false);
+$req = json_decode(file_get_contents('php://input'), false);
 
-if ($input->query == '') {
+if ($req->query == '') {
     http_response_code(400);
     die("Query is empty");
 }
-
-$dbConn;
-if ($input->readOnly) {
-    $dbConn = $readDbConn;
-} else {
-    $dbConn = $rootDbConn;
-}
-
-if (!isset($input->db)) {
-    http_response_code(404);
+if (!isset($req->db)) {
+    http_response_code(400);
     die("No database selected");
 }
 
-if (!$dbConn->query("USE " . $input->db)) {
+$dbConn;
+if ($req->readOnly) {
+    $dbConn = $readDbConn;
+} else {
+    $dbConn = $writeDbConn;
+}
+
+openDatabase($dbConn, $req->$db);
+
+try {
+    $result = $dbConn->query($req->query);
+} catch (Exception $e) {
     http_response_code(500);
     die($dbConn->error);
 }
 
-header("Content-Type: application/json");
 
-try {
-    if (!$result = $dbConn->query($input->query)) {
-        $error = array();
-        $error["success"] = false;
-        $error["hasData"] = false;
-        $error["error"] = $dbConn->error;
-        echo json_encode($error);
-    } else {
-        $output = (object)[];
-        if (is_bool($result)) {
-            $output->success = $result;
-        } else {
-            // Return JSON columns
-            $columnNames = [];
-            foreach (mysqli_fetch_fields($result) as $field) {
-                $columnNames[] = $field->name;
-            }
-            $pageSize = (int) $input->pageSize;
-            $page = (int) $input->page;
-            $count = $result->num_rows;
-            $pageCount = (int) ceil($count / $pageSize);
-            $from = $page * $pageSize;
-            $to = min($page * $pageSize + $pageSize, $count);
-
-            $rows = [];
-            $counter = 0;
-            while ($row = $result->fetch_row()) {
-                if ($counter >= $from && $counter <= $to) {
-                    $rows[] = array_values($row);
-                }
-                $counter++;
-            }
-
-            $output->success = true;
-            $output->hasData = true;
-            $output->count = $count;
-            $output->pageCount = $pageCount;
-            $output->from = $from;
-            $output->to = $to;
-            $output->headers = $columnNames;
-            $output->data = $rows;
-        }
-        echo json_encode($output);
-    }
-} catch (Exception $e) {
-    $error = array();
-    $error["success"] = false;
-    $error["hasData"] = false;
-    $error["error"] = $e->getMessage();
-    echo json_encode($error);
+$columnNames = [];
+foreach (mysqli_fetch_fields($result) as $field) {
+    $columnNames[] = $field->name;
 }
+
+$limit = (int) $req->limit;
+$offset = (int) $req->offset;
+
+$count = $result->num_rows;
+$rows = $result->fetch_all(MYSQLI_ASSOC);
+$rows = array_slice($rows, $offset, $limit);
+
+
+$res = (object)[];
+$res->count = $count;
+$res->headers = $columnNames;
+$res->data = $rows; // TODO: Check if query has data
+
+header("Content-Type: application/json");
+echo json_encode($res);

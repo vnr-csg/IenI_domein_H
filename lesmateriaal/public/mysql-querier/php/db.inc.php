@@ -7,6 +7,15 @@ error_reporting(E_ALL);
 ini_set("memory_limit", "8192M");
 
 // Database connections
-$rootDbConn = new mysqli("127.0.0.1", "user", "password");
+$writeDbConn = new mysqli("127.0.0.1", "user", "password");
 $readDbConn = new mysqli("127.0.0.1", "readonly", "password");
- 
+
+function openDatabase($conn, $db)
+{
+    try {
+        $conn->query("USE " . $db);
+    } catch (Exception $e) {
+        http_response_code(404);
+        die($conn->error);
+    }
+}
