@@ -5,6 +5,11 @@ include "db.inc.php";
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, false);
 
+if ($input->query == '') {
+    http_response_code(400);
+    die("Query is empty");
+}
+
 $dbConn;
 if ($input->readOnly) {
     $dbConn = $readDbConn;
