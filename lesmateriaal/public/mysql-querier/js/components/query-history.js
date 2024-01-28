@@ -1,6 +1,5 @@
 export default class QueryHistory extends HTMLElement {
     /** @type {HTMLTemplateElement} */ #template;
-    /** @type {HTMLTemplateElement} */ #rowTemplate;
     /** @type {Array<any>} */ #history;
     /** @type {HTMLElement} */ #tableBody;
 
@@ -39,3 +38,4 @@ export default class QueryHistory extends HTMLElement {
         this.#tableBody.appendChild(historyRow);
     }
 }
+customElements.define('query-history', QueryHistory);

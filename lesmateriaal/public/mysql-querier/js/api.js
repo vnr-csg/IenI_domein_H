@@ -1,6 +1,6 @@
 /** 
  * Get a list of available databases.
- * @returns {Promise<string>} List of databases
+ * @returns {Promise<Array<string>>} List of databases
  */
 export async function getDatabases() {
     const res = await fetch('php/databases.php');
@@ -11,8 +11,8 @@ export async function getDatabases() {
 }
 
 /** 
- * Get the layout of the database: columns with datatypes
- * @returns {Promise<Array<Object>>} 
+ * Get the layout of the database
+ * @returns {Promise<Array<Object>>}  Array of tables with columns and datatypes
  */
 export async function getLayout(databaseName) {
     const res = await fetch(`php/layout.php?db=${databaseName}`);

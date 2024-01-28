@@ -3,8 +3,6 @@ include "db.inc.php";
 
 $result = $writeDbConn->query("SHOW databases");
 
-$databases = array();
-
 foreach ($result as $row) {
     $dbName = $row["Database"];
     if ($dbName != "information_schema" && $dbName != "performance_schema" && $dbName != "mysql" && $dbName != "sys") {
@@ -13,4 +11,4 @@ foreach ($result as $row) {
 }
 
 header("Content-Type: application/json");
-echo json_encode($databases);
+echo json_encode(array_values($databases));
