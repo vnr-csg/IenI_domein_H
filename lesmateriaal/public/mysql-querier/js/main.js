@@ -1,4 +1,3 @@
-import { getDatabases, getLayout, runQuery, downloadFile } from "./api.js";
 import DatabaseSelect from "./components/database-select.js";
 import DatabaseLayout from "./components/database-layout.js";
 import QueryHistory from "./components/query-history.js";
@@ -13,17 +12,15 @@ import QueryResult from "./components/query-result.js";
 
 // Inputs
 
-/** @type {HTMLInputElement} */ const queryInput = document.getElementById('query-input');
 /** @type {HTMLInputElement} */ const readonlyCheckbox = document.getElementById('readonly-checkbox');
 /** @type {HTMLElement} */ const runButton = document.getElementById('run-button');
 /** @type {HTMLElement} */ const exportButton = document.getElementById('export-button');
 /** @type {HTMLElement} */ const resetButton = document.getElementById('reset-query');
 
 function updateButtons() {
-    runButton.disabled = databaseSelect.selected == null || queryInput.value == '';
+    runButton.disabled = databaseSelect.selected == null;
     exportButton.disabled = databaseSelect.selected == null;
 }
-
 
 async function executeQuery(changedInput) {
     if (changedInput) {
@@ -72,16 +69,20 @@ async function executeQuery(changedInput) {
 databaseSelect.addEventListener('select', (e) => {
     const database = e.detail;
     databaseLayout.updateLayout(database);
+    updateButtons();
 });
-queryInput.addEventListener('input', () => updateButtons());
-runButton.addEventListener('click', () => executeQuery());
+runButton.addEventListener('click', () => {
+    const input = window.editor.getValue();
+    console.log("RUN QUERY: ", input);
+});
 resetButton.addEventListener('click', async () => {
-    await navigator.clipboard.writeText(queryInput.value); // Save input to clipboard
-    queryInput.value = '';
+    const input = window.editor.getValue();
+    await navigator.clipboard.writeText(input); // Save input to clipboard
+    window.editor.setValue('');
 });
 
 // TODO: Restore query from history
 function restoreQuery(query) {
-    queryInput.value = query;
+    window.editor.setValue('TODO: Restore query');
     selectedPage = 0;
 }

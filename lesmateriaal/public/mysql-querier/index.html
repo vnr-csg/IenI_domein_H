@@ -41,7 +41,7 @@
                             <input type="checkbox" class="form-check-input" id="readonly-checkbox" checked>
                             <label class="form-check-label" for="flexCheckDefault">Alleen lezen</label>
                         </div>
-                        <button id="run-button" class="btn btn-primary" disabled>Uitvoeren</button>
+                        <button id="run-button" class="btn btn-primary">Uitvoeren</button>
                         <button id="export-button" type="button" class="btn btn-outline-primary dropdown-toggle"
                             data-bs-toggle="dropdown" disabled>
                             Exporteren
@@ -54,8 +54,21 @@
                     </div>
                 </div>
                 <div class="col">
-                    <textarea id="query-input" name="sql-input" class="form-control mb-3 font-monospace fs-5" rows="6"
-                        placeholder="Type hier een SQL query.."></textarea>
+                    <div id="query-editor" class="mb-3" style="width: 100%; height: 300px; border: 1px solid grey">
+                    </div>
+                    <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
+                    <script>
+                        require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@0.45.0/min/vs' } });
+                        require(['vs/editor/editor.main'], function () {
+                            window.editor = monaco.editor.create(document.getElementById('query-editor'), {
+                                language: 'sql',
+                                fontSize: 20,
+                                minimap: {
+                                    enabled: false,
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
