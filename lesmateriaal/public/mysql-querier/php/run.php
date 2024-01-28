@@ -8,27 +8,31 @@ if ($req->query == '') {
     http_response_code(400);
     die("Query is empty");
 }
-if (!isset($req->db)) {
+if (!isset($req->database)) {
     http_response_code(400);
     die("No database selected");
 }
 
 $dbConn;
-if ($req->readOnly) {
+if ($req->readonly) {
     $dbConn = $readDbConn;
 } else {
     $dbConn = $writeDbConn;
 }
 
-openDatabase($dbConn, $req->$db);
+openDatabase($dbConn, $req->database);
 
 try {
     $result = $dbConn->query($req->query);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(400);
     die($dbConn->error);
 }
 
+if ($result === true) {
+    http_response_code(204);
+    exit();
+}
 
 $columnNames = [];
 foreach (mysqli_fetch_fields($result) as $field) {
@@ -38,13 +42,12 @@ foreach (mysqli_fetch_fields($result) as $field) {
 $limit = (int) $req->limit;
 $offset = (int) $req->offset;
 
-$count = $result->num_rows;
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 $rows = array_slice($rows, $offset, $limit);
 
 
 $res = (object)[];
-$res->count = $count;
+$res->count = $result->num_rows;
 $res->headers = $columnNames;
 $res->data = $rows; // TODO: Check if query has data
 

@@ -29,8 +29,8 @@ export async function getLayout(databaseName) {
  * @param {boolean} readonly Restrict operations to read-only mode
  * @param {number} limit How many rows to return
  * @param {number} offset How many rows to skip from the beginning
- * @param {"csv" | "json"} The content type to return
- * @returns {Promise<Object>} Query response object
+ * @param {"csv" | "json"} contentType The content type to return
+ * @returns {Promise<Object | null>} Query response object
  */
 export async function runQuery(query, database, readonly, limit, offset, contentType) {
     const mimeType = contentType == 'csv' ? 'text/csv' : 'application/json';
@@ -48,10 +48,13 @@ export async function runQuery(query, database, readonly, limit, offset, content
         }
     }
     );
-    if (!response.ok) {
+    if (!res.ok) {
         throw new Error(await res.text());
     }
-    return await response.json();
+    if (res.status == 204) {
+        return null;
+    }
+    return await res.json();
 }
 
 /**

@@ -24,7 +24,6 @@ export default class DatabaseLayout extends HTMLElement {
     }
 
     #displayLayout(layout) {
-        console.log("Displaying layout", layout);
         if (layout.length == 0) {
             this.#databaseLayout.innerHTML = '<div class="alert alert-info" role="alert">Deze database heeft geen tabellen.</div>';
             return;

@@ -30,7 +30,7 @@ async function executeQuery(changedInput) {
 
     let result;
     try {
-        result = runQuery(queryInput.value, selectedDatabase, readonlyCheckbox.checked, selectedLimit, 0);
+        result = runquery(queryinput.value, databaseselect.selected, readonlycheckbox.checked, selectedlimit, 0);
     } catch (e) {
         lastQuerySucces = false;
         queryHistory.addQueryResult({
@@ -73,7 +73,7 @@ databaseSelect.addEventListener('select', (e) => {
 });
 runButton.addEventListener('click', () => {
     const input = window.editor.getValue();
-    console.log("RUN QUERY: ", input);
+    queryResult.updateQuery(input, databaseSelect.selected, readonlyCheckbox.checked);
 });
 resetButton.addEventListener('click', async () => {
     const input = window.editor.getValue();

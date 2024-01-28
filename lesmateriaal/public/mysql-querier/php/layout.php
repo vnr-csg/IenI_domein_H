@@ -12,7 +12,7 @@ openDatabase($readDbConn, $_GET["db"]);
 try {
     $result = $readDbConn->query("SHOW tables");
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(400);
     die("Failed to get database tables: " . $readDbConn->error);
 }
 
@@ -28,7 +28,7 @@ foreach ($result as $row) {
                 WHERE TABLE_SCHEMA = Database() AND TABLE_NAME='" . $tableName . "';"
         );
     } catch (Exception $e) {
-        http_response_code(500);
+        http_response_code(400);
         die("Failed to get layout: " . $readDbConn->error);
     }
 
