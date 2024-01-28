@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>MySQL Querier</title>
 </head>
 
@@ -23,17 +24,26 @@
     <main class="mx-md-3">
         <div class="row my-4">
             <div class="col-7">
-                <h2 class="mb-3">Database</h2>
+                <h2 class="mb-3">
+                    <i class="bi bi-database"></i>
+                    Database
+                </h2>
                 <database-select></database-select>
                 <database-layout></database-layout>
             </div>
             <div class="col-5">
-                <h2 class="mb-3">Geschiedenis</h2>
+                <h2 class="mb-3">
+                    <i class="bi bi-clock-history"></i>
+                    Geschiedenis
+                </h2>
                 <query-history />
             </div>
         </div>
         <div>
-            <h2 class="mb-3">Invoer</h2>
+            <h2 class="mb-3">
+                <i class="bi bi-code-square"></i>
+                Invoer
+            </h2>
             <div class="row mb-3">
                 <div class="col" style="max-width: 160px;">
                     <div class="vstack gap-2">
@@ -41,39 +51,51 @@
                             <input type="checkbox" class="form-check-input" id="readonly-checkbox" checked>
                             <label class="form-check-label" for="flexCheckDefault">Alleen lezen</label>
                         </div>
-                        <button id="run-button" class="btn btn-primary">Uitvoeren</button>
+                        <button id="run-button" class="btn btn-primary">
+                            <i class="bi bi-play-circle"></i>
+                            Uitvoeren</button>
                         <button id="export-button" type="button" class="btn btn-outline-primary dropdown-toggle"
                             data-bs-toggle="dropdown" disabled>
+                            <i class="bi bi-arrow-bar-up"></i>
                             Exporteren
                         </button>
                         <ul class="dropdown-menu">
                             <li><a id="export-csv" role="button" class="dropdown-item">Naar .CSV-bestand</a> </li>
                             <li><a id="export-json" role="button" class="dropdown-item">Naar .JSON-bestand</a></li>
                         </ul>
-                        <button id="reset-query" class="btn btn-outline-secondary">Wissen</button>
+                        <button id="reset-query" class="btn btn-outline-secondary">
+                            <i class="bi bi-trash3"></i>
+                            Wissen</button>
                     </div>
                 </div>
                 <div class="col">
-                    <div id="query-editor" class="mb-3" style="width: 100%; height: 300px; border: 1px solid grey">
+                    <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 300px">
                     </div>
                     <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
                     <script>
                         require.config({ paths: { vs: 'https://unpkg.com/monaco-editor@0.45.0/min/vs' } });
                         require(['vs/editor/editor.main'], function () {
+                            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                            colorMode
                             window.editor = monaco.editor.create(document.getElementById('query-editor'), {
                                 language: 'sql',
                                 fontSize: 20,
                                 minimap: {
                                     enabled: false,
-                                }
+                                },
+                                theme: `vs-${colorMode}`
                             });
+                            window.monaco = monaco;
                         });
                     </script>
                 </div>
             </div>
         </div>
         <div class="my-4">
-            <h2 class="mb-3">Resultaten</h2>
+            <h2 class="mb-3">
+                <i class="bi bi-table"></i>
+                Resultaten
+            </h2>
             <query-result />
         </div>
     </main>
@@ -139,6 +161,18 @@
         </div>
     </template>
     <script type="module" src="js/main.js"></script>
+    <script>
+        // Automatic dark mode for bootstrap
+        function updateTheme() {
+            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
+            if (window.monaco) {
+                window.monaco.editor.setTheme(`vs-${colorMode}`)
+            }
+        }
+        updateTheme()
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+    </script>
 </body>
 
 </html>
