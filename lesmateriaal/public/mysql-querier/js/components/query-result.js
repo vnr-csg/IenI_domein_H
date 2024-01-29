@@ -17,7 +17,6 @@ export default class QueryResult extends HTMLElement {
     /** @type {string} */ #query;
     /** @type {string} */ #database;
     /** @type {boolean} */ #readonly;
-    /** @type {number} */ #offset = 0;
     /** @type {number} */ #limit = 100;
 
     /** @type {number} */ #activePage = 0;
@@ -66,13 +65,17 @@ export default class QueryResult extends HTMLElement {
     async #executeQuery() {
         this.#resultMessage.innerHTML = "";
         this.loading = true;
+        let result;
         try {
-            const result = await runQuery(this.#query, this.#database, this.#readonly, this.#limit, this.#offset, "json");
-            if (result != null) this.#pageCount = Math.ceil(result.count / this.#limit); // Update page count
-            this.#displayResult(result)
+            const offset = this.#activePage * this.#limit;
+            result = await runQuery(this.#query, this.#database, this.#readonly, this.#limit, offset, "json");
         } catch (e) {
             this.#displayError(e.message);
-        }
+            this.loading = false;
+            return;
+        } 
+        if (result != null) this.#pageCount = Math.ceil(result.count / this.#limit); // Update page count
+        this.#displayResult(result)
         this.loading = false;
     }
 
@@ -84,7 +87,9 @@ export default class QueryResult extends HTMLElement {
             this.#resultHeader.innerHTML = "";
 
             // Stats
-            this.#resultStats.innerHTML = `<span class="mx-2">Resultaten: <strong>${this.#offset + 1} - ${this.#offset + this.#limit}</strong></span>
+            const offset = this.#activePage * this.#limit;
+            const lastResult = Math.min(offset + this.#limit, result.count);
+            this.#resultStats.innerHTML = `<span class="mx-2">Resultaten: <strong>${offset + 1} - ${lastResult}</strong></span>
                                      <span class="mx-2">Totaal: <strong>${result.count}</strong></span>
                                      <span class="mx-2">Pagina: <strong>${this.#activePage + 1}/${this.#pageCount}</strong></span>`;
 
@@ -98,9 +103,11 @@ export default class QueryResult extends HTMLElement {
 
             for (const row of result.data) {
                 const tableRow = document.createElement("tr");
-                for (const column of Object.values(row)) {
+                for (const value of Object.values(row)) {
                     const tableElement = document.createElement("td");
-                    tableElement.innerHTML = column.toLocaleString();
+                    if (value) {
+                        tableElement.innerHTML = value.toLocaleString();
+                    }
                     tableRow.appendChild(tableElement);
                 }
                 this.#resultBody.appendChild(tableRow);
@@ -127,17 +134,17 @@ export default class QueryResult extends HTMLElement {
         }
 
         // Calculate min & max pages to show based on range
-        let start = this.#activePage  - PAGINATION_RANGE;
+        let start = this.#activePage - PAGINATION_RANGE;
         let end = start + 2 * PAGINATION_RANGE;
         if (start <= 0) {
             start = 0;
             end = start + 2 * PAGINATION_RANGE;
         } else if (end >= this.#pageCount) {
-            end = this.#pageCount;
-            start = (this.#pageCount - PAGINATION_RANGE * 2);
+            end = this.#pageCount - 1;
+            start = (this.#pageCount - 1 - PAGINATION_RANGE * 2);
         }
         start = Math.max(0, start);
-        end = Math.min(this.#pageCount, end);
+        end = Math.min(this.#pageCount - 1, end);
 
         for (const element of paginationElements) {
             const pagination = this.#createPagination(start, end, this.#activePage, this.#pageCount);
@@ -156,10 +163,10 @@ export default class QueryResult extends HTMLElement {
         group.appendChild(createPaganationButton("Eerste", "&laquo;", () => this.navigateToPage(0), onFirst));
         group.appendChild(createPaganationButton("Vorige", "&lt;", () => this.navigateToPage(this.#activePage - 1), onFirst));
         for (let i = start; i <= end; i++) {
-            group.appendChild(createPaganationButton(`Pagina ${i + 1}`, `${i + 1}`, () => this.navigateToPage(i), false, i == this.#activePage + 1));
+            group.appendChild(createPaganationButton(`Pagina ${i + 1}`, `${i + 1}`, () => this.navigateToPage(i), false, i == this.#activePage));
         }
         group.appendChild(createPaganationButton("Volgende", "&gt;", () => this.navigateToPage(this.#activePage + 1), onLast));
-        group.appendChild(createPaganationButton("Laatste", "&raquo;", () => this.navigateToPage(this.pageCount - 1), onLast));
+        group.appendChild(createPaganationButton("Laatste", "&raquo;", () => this.navigateToPage(this.#pageCount - 1), onLast));
 
 
         const limitSelect = document.createElement("select");
@@ -175,7 +182,7 @@ export default class QueryResult extends HTMLElement {
             const option = document.createElement("option");
             option.value = limit;
             option.innerHTML = limit;
-            if (this.#limit == option) {
+            if (this.#limit == limit) {
                 option.setAttribute("selected", "selected");
             }
             limitSelect.appendChild(option);
@@ -208,15 +215,14 @@ customElements.define("query-result", QueryResult);
  * @returns {HTMLElement} A button element
  */
 function createPaganationButton(title, content, onclick, disabled, active = false) {
-    const button = document.createElement("a");
-    button.role = "button";
+    const button = document.createElement("button");
     button.classList.add("btn", "btn-outline-secondary");
     if (active) {
         button.classList.add("active");
     }
     button.title = title;
     if (disabled) {
-        button.setAttribute("disabled", disabled);
+        button.setAttribute("disabled", "disabled");
     }
     button.innerHTML = content;
     button.addEventListener('click', onclick);
