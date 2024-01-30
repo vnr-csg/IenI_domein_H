@@ -34,6 +34,7 @@ queryResult.addEventListener('result', (e) => {
         console.info("Update datbases & layout");
         databaseSelect.load();
         databaseLayout.reload();
+        updateButtons();
     }
 })
 resetButton.addEventListener('click', async () => {
