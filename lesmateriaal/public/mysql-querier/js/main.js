@@ -20,14 +20,22 @@ function updateButtons() {
 
 databaseSelect.addEventListener('select', (e) => {
     const database = e.detail;
-    databaseLayout.updateLayout(database);
+    databaseLayout.loadLayout(database);
     updateButtons();
 });
 runButton.addEventListener('click', () => {
     const input = window.editor.getValue();
     queryResult.updateQuery(input, databaseSelect.selected, readonlyCheckbox.checked);
 });
-queryResult.addEventListener('result', (e) => queryHistory.addQueryResult(e.detail))
+queryResult.addEventListener('result', (e) => {
+    const result = e.detail;
+    queryHistory.addQueryResult(result);
+    if (result.success && !result.count) { // Databases or tables might have been changed
+        console.info("Update datbases & layout");
+        databaseSelect.load();
+        databaseLayout.reload();
+    }
+})
 resetButton.addEventListener('click', async () => {
     const input = window.editor.getValue();
     await navigator.clipboard.writeText(input); // Save input to clipboard

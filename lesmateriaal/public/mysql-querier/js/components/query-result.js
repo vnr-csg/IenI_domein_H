@@ -84,7 +84,13 @@ export default class QueryResult extends HTMLElement {
         this.loading = false;
 
         if (changedQuery) {
-            this.dispatchEvent(new CustomEvent('result', { detail: { success, query: this.#query, count: result ? result.count : null } }));
+            this.dispatchEvent(new CustomEvent('result', {
+                detail: {
+                    success,
+                    query: this.#query,
+                    count: result ? result.count : null,
+                }
+            }));
         }
     }
 

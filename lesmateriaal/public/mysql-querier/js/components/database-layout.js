@@ -3,6 +3,7 @@ import { getLayout } from "../api.js";
 export default class DatabaseLayout extends HTMLElement {
     /** @type {HTMLTemplateElement} */ #template;
     /** @type {HTMLElement} */ #databaseLayout;
+    /** @type {string} */ #database = null;
 
     constructor() {
         super();
@@ -19,8 +20,17 @@ export default class DatabaseLayout extends HTMLElement {
      * Update the database layout
      * @param {string} database
      */
-    updateLayout(database) {
+    loadLayout(database) {
+        this.#database = database;
         getLayout(database).then((layout) => this.#displayLayout(layout)).catch(() => this.#clearLayout())
+    }
+
+    /**
+     * Reloads the layout of the same database
+     */
+    reload() {
+        if (this.#database == null) return;
+        getLayout(this.#database).then((layout) => this.#displayLayout(layout)).catch(() => this.#clearLayout())
     }
 
     #displayLayout(layout) {

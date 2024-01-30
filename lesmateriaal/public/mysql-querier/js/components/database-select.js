@@ -20,13 +20,13 @@ export default class DatabaseSelect extends HTMLElement {
             console.info(`Selected database ${this.#selected}`);
             this.dispatchEvent(new CustomEvent('select', { detail: this.#selected }));
         });
-        this.updateDatabases();
+        this.load();
     }
 
     /**
      * Update the database list
      */
-    updateDatabases() {
+    load() {
         getDatabases().then((databases) => this.#displayDatabases(databases))
     }
 
