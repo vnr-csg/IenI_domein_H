@@ -3,14 +3,10 @@ import DatabaseLayout from "./components/database-layout.js";
 import QueryHistory from "./components/query-history.js";
 import QueryResult from "./components/query-result.js";
 
-// Components
-
 /** @type {QueryHistory} */ const queryHistory = document.querySelector('query-history');
 /** @type {DatabaseSelect} */ const databaseSelect = document.querySelector('database-select');
 /** @type {DatabaseLayout} */ const databaseLayout = document.querySelector('database-layout');
 /** @type {QueryResult} */ const queryResult = document.querySelector('query-result');
-
-// Inputs
 
 /** @type {HTMLInputElement} */ const readonlyCheckbox = document.getElementById('readonly-checkbox');
 /** @type {HTMLElement} */ const runButton = document.getElementById('run-button');
@@ -22,8 +18,6 @@ function updateButtons() {
     exportButton.disabled = databaseSelect.selected == null;
 }
 
-// Events
-
 databaseSelect.addEventListener('select', (e) => {
     const database = e.detail;
     databaseLayout.updateLayout(database);
@@ -32,16 +26,13 @@ databaseSelect.addEventListener('select', (e) => {
 runButton.addEventListener('click', () => {
     const input = window.editor.getValue();
     queryResult.updateQuery(input, databaseSelect.selected, readonlyCheckbox.checked);
-    // TODO: Update history
 });
+queryResult.addEventListener('result', (e) => queryHistory.addQueryResult(e.detail))
 resetButton.addEventListener('click', async () => {
     const input = window.editor.getValue();
     await navigator.clipboard.writeText(input); // Save input to clipboard
     window.editor.setValue('');
 });
-
-// TODO: Restore query from history
-function restoreQuery(query) {
-    window.editor.setValue('TODO: Restore query');
-    selectedPage = 0;
-}
+queryHistory.addEventListener('restore', (e) => {
+    window.editor.setValue(e.detail);
+});

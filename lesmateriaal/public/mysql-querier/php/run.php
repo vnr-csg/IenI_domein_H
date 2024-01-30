@@ -49,7 +49,7 @@ $rows = array_slice($rows, $offset, $limit);
 $res = (object)[];
 $res->count = $result->num_rows;
 $res->headers = $columnNames;
-$res->data = $rows; // TODO: Check if query has data
+$res->data = $rows;
 
 header("Content-Type: application/json");
 echo json_encode($res);

@@ -10,6 +10,7 @@ export default class QueryResult extends HTMLElement {
     /** @type {HTMLElement} */ #resultHeader;
     /** @type {HTMLElement} */ #resultBody;
     /** @type {HTMLElement} */ #resultStats;
+    /** @type {Array<HTMLElement>} */ #paginationContainers;
     /** @type {HTMLElement} */ #loadingIndicator;
 
     /** @type {boolean} */ #loading = false;
@@ -37,6 +38,7 @@ export default class QueryResult extends HTMLElement {
         this.#resultBody = this.shadowRoot.getElementById("result-body");
         this.#resultStats = this.shadowRoot.getElementById("result-stats");
         this.#loadingIndicator = this.shadowRoot.getElementById("loading-indicator");
+        this.#paginationContainers = this.shadowRoot.querySelectorAll(".result-pagination");
     }
 
     /**
@@ -49,7 +51,7 @@ export default class QueryResult extends HTMLElement {
         this.#query = query;
         this.#database = database;
         this.#readonly = readonly;
-        this.#executeQuery();
+        this.#executeQuery(true);
     }
 
     /**
@@ -62,30 +64,42 @@ export default class QueryResult extends HTMLElement {
         this.#executeQuery();
     }
 
-    async #executeQuery() {
-        this.#resultMessage.innerHTML = "";
+    async #executeQuery(changedQuery = false) {
+        this.#clearDisplay();
         this.loading = true;
-        let result;
+
+        let result = null;
+        let success = false;
         try {
             const offset = this.#activePage * this.#limit;
             result = await runQuery(this.#query, this.#database, this.#readonly, this.#limit, offset, "json");
+            success = true;
         } catch (e) {
             this.#displayError(e.message);
-            this.loading = false;
-            return;
-        } 
-        if (result != null) this.#pageCount = Math.ceil(result.count / this.#limit); // Update page count
-        this.#displayResult(result)
+        }
+        if (success) { // Display result if success
+            if (result != null) this.#pageCount = Math.ceil(result.count / this.#limit); // Update page count
+            this.#displayResult(result)
+        }
         this.loading = false;
+
+        if (changedQuery) {
+            this.dispatchEvent(new CustomEvent('result', { detail: { success, query: this.#query, count: result ? result.count : null } }));
+        }
+    }
+
+    #clearDisplay() {
+        this.#resultMessage.innerHTML = "";
+        this.#resultBody.innerHTML = "";
+        this.#resultHeader.innerHTML = "";
+        this.#resultStats.innerHTML = "";
+        this.#paginationContainers.forEach(e => e.innerHTML = "");
     }
 
     #displayResult(result) {
         if (result == null) {
             this.#resultMessage.innerHTML = `<div class="alert alert-success" role="alert">Query succesvol uitgevoerd, geen resultaten.</div>`;
         } else {
-            this.#resultBody.innerHTML = "";
-            this.#resultHeader.innerHTML = "";
-
             // Stats
             const offset = this.#activePage * this.#limit;
             const lastResult = Math.min(offset + this.#limit, result.count);
@@ -125,11 +139,7 @@ export default class QueryResult extends HTMLElement {
     }
 
     #displayPagination() {
-        const paginationElements = this.shadowRoot.querySelectorAll(".result-pagination");
         if (this.#pageCount == 0) {
-            for (const element of paginationElements) {
-                element.innerHTML = "";
-            }
             return;
         }
 
@@ -146,7 +156,7 @@ export default class QueryResult extends HTMLElement {
         start = Math.max(0, start);
         end = Math.min(this.#pageCount - 1, end);
 
-        for (const element of paginationElements) {
+        for (const element of this.#paginationContainers) {
             const pagination = this.#createPagination(start, end, this.#activePage, this.#pageCount);
             element.innerHTML = '';
             element.appendChild(pagination);
