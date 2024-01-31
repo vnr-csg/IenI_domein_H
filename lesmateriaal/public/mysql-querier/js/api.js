@@ -54,7 +54,11 @@ export async function runQuery(query, database, readonly, limit, offset, content
     if (res.status == 204) {
         return null;
     }
-    return await res.json();
+    const result = await res.json();
+    console.log("123");
+    result.count = parseInt(res.headers.get('x-row-count'));
+    console.log(result);
+    return result;
 }
 
 /**

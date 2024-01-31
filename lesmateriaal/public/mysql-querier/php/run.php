@@ -45,11 +45,30 @@ $offset = (int) $req->offset;
 $rows = $result->fetch_all(MYSQLI_ASSOC);
 $rows = array_slice($rows, $offset, $limit);
 
+header("x-row-count: " . $result->num_rows);
 
-$res = (object)[];
-$res->count = $result->num_rows;
-$res->headers = $columnNames;
-$res->data = $rows;
 
-header("Content-Type: application/json");
-echo json_encode($res);
+if (isset($_SERVER['Accept']) && $_SERVER['Accept'] == "text/csv") {
+    $csv = "";
+    foreach ($columnNames as $col) {
+        $csv .= $col;
+        $csv .= ", ";
+    }
+    $csv .= "\n";
+    foreach ($result as $row) {
+        foreach (array_values($row) as $col) {
+            $csv .= $col;
+            $csv .= ", ";
+        }
+        $csv .= "\n";
+    }
+    header("Content-Type: text/csv");
+    echo $csv;
+} else {
+    $res = (object)[];
+    $res->headers = $columnNames;
+    $res->data = $rows;
+
+    header("Content-Type: application/json");
+    echo json_encode($res);
+}
