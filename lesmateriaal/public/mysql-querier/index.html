@@ -20,32 +20,32 @@
 <body style="background-color:rgba(0,0,0,0.1);">
     <div class="container-xl p-4">
         <main class="shadow px-5 py-4 bg-body rounded">
-            <header class="text-center mx-md-3 my-1">
-                <h1 class="fw-bold">MySQL Querier</h1>
+            <header class="text-center mx-md-3 mb-3">
+                <h2 class="fw-bold">MySQL Querier</h2>
             </header>
-            <div class="row my-4">
+            <div class="row my-2">
                 <div class="col-7">
-                    <h2 class="mb-3">
+                    <h3 class="mb-3">
                         <i class="bi bi-database"></i>
                         Database
-                    </h2>
+                    </h3>
                     <database-select></database-select>
                     <database-layout></database-layout>
                 </div>
                 <div class="col-5">
-                    <h2 class="mb-3">
+                    <h3 class="mb-3">
                         <i class="bi bi-clock-history"></i>
                         Geschiedenis
-                    </h2>
+                    </h3>
                     <query-history />
                 </div>
             </div>
             <div>
-                <h2 class="mb-3">
+                <h3 class="mb-3">
                     <i class="bi bi-code-square"></i>
                     Invoer
-                </h2>
-                <div class="row mb-3">
+                </h3>
+                <div class="row mb-2">
                     <div class="col" style="max-width: 160px;">
                         <div class="vstack gap-2">
                             <div class="form-check mb-3">
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 300px">
+                        <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 14rem;">
                         </div>
                         <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
                         <script>
@@ -92,11 +92,11 @@
                     </div>
                 </div>
             </div>
-            <div class="my-4">
-                <h2 class="mb-3">
+            <div class="my-2">
+                <h3 class="mb-3">
                     <i class="bi bi-table"></i>
                     Resultaten
-                </h2>
+                </h3>
                 <query-result />
             </div>
         </main>
@@ -121,7 +121,7 @@
     <template id="template-query-history">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <div class="overflow-auto" style="height: 12em;">
+        <div class="overflow-auto" style="height: 10rem;">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -163,7 +163,7 @@
             </div>
         </div>
         <div class="py-3 mb-3">
-            <div class="btn-toolbar justify-content-between mb-3">
+            <div class="btn-toolbar justify-content-between">
                 <div class="result-pagination"></div>
             </div>
         </div>
