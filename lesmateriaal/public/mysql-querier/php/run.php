@@ -39,36 +39,35 @@ foreach (mysqli_fetch_fields($result) as $field) {
     $columnNames[] = $field->name;
 }
 
-$limit = (int) $req->limit;
-$offset = (int) $req->offset;
-
 $rows = $result->fetch_all(MYSQLI_ASSOC);
-$rows = array_slice($rows, $offset, $limit);
+
+if (isset($req->limit)) {
+    $limit = (int) $req->limit;
+    $offset = (int) $req->offset;
+    $rows = array_slice($rows, $offset, $limit);
+}
 
 header("x-row-count: " . $result->num_rows);
 
+$headers = getallheaders();
 
-if (isset($_SERVER['Accept']) && $_SERVER['Accept'] == "text/csv") {
+if (isset($headers['Accept']) && $headers['Accept'] == "text/csv") {
     $csv = "";
     foreach ($columnNames as $col) {
         $csv .= $col;
         $csv .= ", ";
     }
-    $csv .= "\n";
+    $csv .= "\r\n";
     foreach ($result as $row) {
         foreach (array_values($row) as $col) {
             $csv .= $col;
             $csv .= ", ";
         }
-        $csv .= "\n";
+        $csv .= "\r\n";
     }
     header("Content-Type: text/csv");
     echo $csv;
 } else {
-    $res = (object)[];
-    $res->headers = $columnNames;
-    $res->data = $rows;
-
     header("Content-Type: application/json");
-    echo json_encode($res);
+    echo json_encode($rows);
 }

@@ -41,6 +41,14 @@ export default class QueryResult extends HTMLElement {
         this.#paginationContainers = this.shadowRoot.querySelectorAll(".result-pagination");
     }
 
+    get query() {
+        return this.#query;
+    }
+
+    get database() {
+        return this.#database;
+    }
+
     /**
      * Updates the query to execute.
      * @param {string} query
@@ -59,7 +67,7 @@ export default class QueryResult extends HTMLElement {
      * @param {number} pageNumber The page to navigate to
      */
     navigateToPage(pageNumber) {
-        console.info("Navgiate to page", pageNumber);
+        console.info("Navigate to page", pageNumber);
         this.#activePage = pageNumber;
         this.#executeQuery();
     }
@@ -103,21 +111,20 @@ export default class QueryResult extends HTMLElement {
     }
 
     #displayResult(result) {
-        if (result == null) {
+        if (result == null || result.length == 0) {
             this.#resultMessage.innerHTML = `<div class="alert alert-success" role="alert">Query succesvol uitgevoerd, geen resultaten.</div>`;
         } else {
             // Stats
             const offset = this.#activePage * this.#limit;
             const lastResult = Math.min(offset + this.#limit, result.count);
-            this.#resultStats.innerHTML = `<span class="mx-2">Resultaten: <strong>${offset + 1} - ${lastResult}</strong></span>
-                                     <span class="mx-2">Totaal: <strong>${result.count}</strong></span>
-                                     <span class="mx-2">Pagina: <strong>${this.#activePage + 1}/${this.#pageCount}</strong></span>`;
+            this.#resultStats.innerHTML = `<span class="mx-2">Resultaten:<strong> ${offset + 1} - ${lastResult}</strong></span>
+                                     <span class="mx-2">Totaal:<strong> ${result.count}</strong></span>
+                                     <span class="mx-2">Pagina:<strong> ${this.#activePage + 1}/${this.#pageCount}</strong></span>`;
 
             // Create table to display results
-            for (let header in result.headers) {
+            for (const columnName of Object.keys(result.data[0])) {
                 const headerElement = document.createElement("th");
-                const headerValue = result.headers[header];
-                headerElement.innerHTML = headerValue;
+                headerElement.innerHTML = columnName;
                 this.#resultHeader.appendChild(headerElement);
             }
 
@@ -183,7 +190,6 @@ export default class QueryResult extends HTMLElement {
         }
         group.appendChild(createPaganationButton("Volgende", "&gt;", () => this.navigateToPage(this.#activePage + 1), onLast));
         group.appendChild(createPaganationButton("Laatste", "&raquo;", () => this.navigateToPage(this.#pageCount - 1), onLast));
-
 
         const limitSelect = document.createElement("select");
         limitSelect.className = "form-control form-select";

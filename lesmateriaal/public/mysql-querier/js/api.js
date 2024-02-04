@@ -3,7 +3,7 @@
  * @returns {Promise<Array<string>>} List of databases
  */
 export async function getDatabases() {
-    const res = await fetch('php/databases.php');
+    const res = await fetch("php/databases.php");
     if (!res.ok) {
         throw new Error(`Failed to get database list, ${res.status} - ${await res.text()}`);
     }
@@ -27,15 +27,15 @@ export async function getLayout(databaseName) {
  * @param {string} query The SQL query to run
  * @param {string} database The database to perform the query on
  * @param {boolean} readonly Restrict operations to read-only mode
- * @param {number} limit How many rows to return
+ * @param {number | null} limit How many rows to return
  * @param {number} offset How many rows to skip from the beginning
  * @param {"csv" | "json"} contentType The content type to return
  * @returns {Promise<Object | null>} Query response object
  */
 export async function runQuery(query, database, readonly, limit, offset, contentType) {
-    const mimeType = contentType == 'csv' ? 'text/csv' : 'application/json';
-    const res = await fetch('php/run.php', {
-        method: 'POST',
+    const mimeType = contentType == "csv" ? "text/csv" : "application/json";
+    const res = await fetch("php/run.php", {
+        method: "POST",
         body: JSON.stringify({
             query,
             database,
@@ -44,7 +44,7 @@ export async function runQuery(query, database, readonly, limit, offset, content
             offset,
         }),
         headers: {
-            'Accept': mimeType,
+            "Accept": mimeType,
         }
     }
     );
@@ -54,11 +54,13 @@ export async function runQuery(query, database, readonly, limit, offset, content
     if (res.status == 204) {
         return null;
     }
-    const result = await res.json();
-    console.log("123");
-    result.count = parseInt(res.headers.get('x-row-count'));
-    console.log(result);
-    return result;
+
+    const data = contentType == "csv" ? await res.text() : await res.json();
+    const rowCount = parseInt(res.headers.get("x-row-count"));
+    return {
+        data,
+        count: rowCount,
+    };
 }
 
 /**

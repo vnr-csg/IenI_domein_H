@@ -2,6 +2,7 @@ import DatabaseSelect from "./components/database-select.js";
 import DatabaseLayout from "./components/database-layout.js";
 import QueryHistory from "./components/query-history.js";
 import QueryResult from "./components/query-result.js";
+import { downloadFile, runQuery } from "./api.js";
 
 /** @type {QueryHistory} */ const queryHistory = document.querySelector('query-history');
 /** @type {DatabaseSelect} */ const databaseSelect = document.querySelector('database-select');
@@ -11,6 +12,8 @@ import QueryResult from "./components/query-result.js";
 /** @type {HTMLInputElement} */ const readonlyCheckbox = document.getElementById('readonly-checkbox');
 /** @type {HTMLElement} */ const runButton = document.getElementById('run-button');
 /** @type {HTMLElement} */ const exportButton = document.getElementById('export-button');
+/** @type {HTMLElement} */ const exportCsvButton = document.getElementById('export-csv');
+/** @type {HTMLElement} */ const exportJsonButton = document.getElementById('export-json');
 /** @type {HTMLElement} */ const resetButton = document.getElementById('reset-query');
 
 function updateButtons() {
@@ -45,3 +48,13 @@ resetButton.addEventListener('click', async () => {
 queryHistory.addEventListener('restore', (e) => {
     window.editor.setValue(e.detail);
 });
+
+
+async function exportToFile(format) {
+    const result = await runQuery(queryResult.query, queryResult.database, true, null, 0, format);
+    const data = format != "csv" ? JSON.stringify(result.data) : result.data;
+    downloadFile(data, format == "csv" ? "text/csv" : "application/json", `export.${format}`);
+}
+
+exportCsvButton.addEventListener('click', () => exportToFile("csv"));
+exportJsonButton.addEventListener('click', () => exportToFile("json"));
