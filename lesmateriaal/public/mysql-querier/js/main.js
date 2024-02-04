@@ -16,9 +16,11 @@ import { downloadFile, runQuery } from "./api.js";
 /** @type {HTMLElement} */ const exportJsonButton = document.getElementById('export-json');
 /** @type {HTMLElement} */ const resetButton = document.getElementById('reset-query');
 
+let hasResults = false;
+
 function updateButtons() {
     runButton.disabled = databaseSelect.selected == null;
-    exportButton.disabled = databaseSelect.selected == null;
+    exportButton.disabled = databaseSelect.selected == null || !hasResults;
 }
 
 databaseSelect.addEventListener('select', (e) => {
@@ -33,12 +35,13 @@ runButton.addEventListener('click', () => {
 queryResult.addEventListener('result', (e) => {
     const result = e.detail;
     queryHistory.addQueryResult(result);
+    hasResults = result.success && result.count;
     if (result.success && !result.count) { // Databases or tables might have been changed
         console.info("Update datbases & layout");
         databaseSelect.load();
         databaseLayout.reload();
-        updateButtons();
     }
+    updateButtons();
 })
 resetButton.addEventListener('click', async () => {
     const input = window.editor.getValue();
@@ -58,3 +61,5 @@ async function exportToFile(format) {
 
 exportCsvButton.addEventListener('click', () => exportToFile("csv"));
 exportJsonButton.addEventListener('click', () => exportToFile("json"));
+
+updateButtons();
