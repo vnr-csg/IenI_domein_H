@@ -5,6 +5,6 @@ import() {
     db_name=$(basename $1 .sql)
     echo "Import $1 $db_name"
     $mysql -e "DROP DATABASE IF EXISTS $db_name; CREATE DATABASE $db_name;" 2>/dev/null
-    $mysql --init-command="SET SESSION FOREIGN_KEY_CHECKS=0;" $db_name < $1 2>/dev/null
+    $mysql --init-command="SET SESSION FOREIGN_KEY_CHECKS=0;" --default_character_set utf8 $db_name < $1 2>/dev/null
 }
 find ./databases -maxdepth 1 -type f -name '*.sql' | while read file; do import "$file"; done

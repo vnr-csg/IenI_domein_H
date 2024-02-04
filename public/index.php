@@ -13,8 +13,8 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
     <meta charset="utf8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <title>Databases Omgeving</title>
 </head>
 
@@ -80,14 +80,17 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
                             </div>
                         </div>
                         <?php
-                        function info($msg) {
+                        function info($msg)
+                        {
                             echo '<div id="result-msg" class="alert alert-success" role="alert">' . $msg . '</div>';
                         }
-                        function error($msg) {
+                        function error($msg)
+                        {
                             echo '<div id="result-msg" class="alert alert-danger" role="alert">' . $msg . '</div>';
                         }
-                        function runScript($fileName) {
-                            $cmd = "cd .. && sh ./setup/".$fileName;
+                        function runScript($fileName)
+                        {
+                            $cmd = "cd .. && sh ./setup/" . $fileName;
                             shell_exec($cmd);
                         }
 
@@ -121,8 +124,8 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
                         echo "<b>Er zijn " . count($databases) . " databases beschikbaar in MySQL: </b>";
                         echo "<ul>";
                         foreach ($databases as $dbName) {
-                            $isDefault = file_exists("../lesmateriaal/standaard-databases/".$dbName.".sql");
-                            echo "<li>".$dbName;
+                            $isDefault = file_exists("../lesmateriaal/standaard-databases/" . $dbName . ".sql");
+                            echo "<li>" . $dbName;
                             if ($isDefault) {
                                 echo ' <small class="text-muted">(standaard)</small>';
                             }
@@ -187,6 +190,14 @@ Als je zelf een website bouwt maak dan in dezelfde map 'public' een nieuwe map a
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
+        // Automatic dark mode for Bootstrap
+        function updateTheme() {
+            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
+        }
+        updateTheme()
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateTheme);
+    </script>
     </script>
 </body>
 
