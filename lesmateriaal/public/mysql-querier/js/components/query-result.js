@@ -87,6 +87,7 @@ export default class QueryResult extends HTMLElement {
         }
         if (success) { // Display result if success
             if (result != null) this.#pageCount = Math.ceil(result.count / this.#limit); // Update page count
+            console.info(`Query successful, ${result.count} results`); 
             this.#displayResult(result)
         }
         this.loading = false;
@@ -111,7 +112,7 @@ export default class QueryResult extends HTMLElement {
     }
 
     #displayResult(result) {
-        if (result == null || result.length == 0) {
+        if (result == null || result.count == 0) {
             this.#resultMessage.innerHTML = `<div class="alert alert-success" role="alert">Query succesvol uitgevoerd, geen resultaten.</div>`;
         } else {
             // Stats
