@@ -40,81 +40,70 @@
                     <query-history />
                 </div>
             </div>
-            <div>
-                <h3 class="mb-3">
+            <div class="d-flex align-items-end gap-2 mb-2 flex-wrap">
+                <h3 class="mb-3 me-auto">
                     <a href="?plaineditor" style="color: inherit;"><i class="bi bi-code-square"></i></a>
                     Invoer
                 </h3>
-                <div class="row mb-2">
-                    <div class="col" style="max-width: 160px;">
-                        <div class="vstack gap-2">
-                            <div class="form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="readonly-checkbox" checked>
-                                <label class="form-check-label" for="flexCheckDefault">Alleen lezen</label>
-                            </div>
-                            <button id="run-button" class="btn btn-primary">
-                                <i class="bi bi-play-circle"></i>
-                                Uitvoeren</button>
-                            <button id="export-button" type="button" class="btn btn-outline-primary dropdown-toggle"
-                                data-bs-toggle="dropdown" disabled>
-                                <i class="bi bi-arrow-bar-up"></i>
-                                Exporteren
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a id="export-csv" role="button" class="dropdown-item">Naar .CSV-bestand</a> </li>
-                                <li><a id="export-json" role="button" class="dropdown-item">Naar .JSON-bestand</a></li>
-                            </ul>
-                            <button id="reset-query" class="btn btn-outline-secondary">
-                                <i class="bi bi-trash3"></i>
-                                Wissen</button>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 14rem;">
-                            <textarea id="query-plaineditor" class="form-control font-monospace fs-5" rows="6"
-                                placeholder="Type hier een SQL query.." style="width: 100%; height: 100%;"></textarea>
-                        </div>
-                        <script src="js/monaco-editor/vs/loader.js"></script>
-                        <script>
-                            const urlParams = new URLSearchParams(window.location.search);
-                            // The monaco editor can be disabled by appending plaineditor to the URL
-                            const plainEditor = document.getElementById("query-plaineditor");
-                            if (urlParams.get('plaineditor') == null) {
-                                plainEditor.remove();
-                                console.info("Loading monaco editor");
-                                require.config({ paths: { vs: 'js/monaco-editor/vs' } });
-                                require(['vs/editor/editor.main'], function () {
-                                    const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-                                    colorMode
-                                    window.editor = monaco.editor.create(document.getElementById('query-editor'), {
-                                        language: 'sql',
-                                        fontSize: 20,
-                                        minimap: {
-                                            enabled: false,
-                                        },
-                                        theme: `vs-${colorMode}`
-                                    });
-                                    window.monaco = monaco;
-                                });
-                            } else {
-                                window.editor = {
-                                    getValue() {
-                                        return plainEditor.value;
-                                    },
-                                    setValue(val) {
-                                        plainEditor.value = val;
-                                    }
-                                };
-                            }
-                        </script>
-                    </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="readonly-checkbox" checked>
+                    <label class="form-check-label" for="flexCheckDefault">Alleen lezen</label>
                 </div>
+                <button id="reset-query" class="btn btn-outline-secondary">
+                    <i class="bi bi-trash3"></i>
+                    Wissen</button>
+                <button id="export-button" type="button" class="btn btn-outline-primary dropdown-toggle"
+                    data-bs-toggle="dropdown" disabled>
+                    <i class="bi bi-arrow-bar-up"></i>
+                    Exporteren
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a id="export-csv" role="button" class="dropdown-item">Naar .CSV-bestand</a> </li>
+                    <li><a id="export-json" role="button" class="dropdown-item">Naar .JSON-bestand</a></li>
+                </ul>
+                <button id="run-button" class="btn btn-primary">
+                    <i class="bi bi-play-circle"></i>
+                    Uitvoeren</button>
             </div>
+            <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 14rem;">
+                <textarea id="query-plaineditor" class="form-control font-monospace fs-5" rows="6"
+                    placeholder="Type hier een SQL query.." style="width: 100%; height: 100%;"></textarea>
+            </div>
+            <script src="js/monaco-editor/vs/loader.js"></script>
+            <script>
+                const urlParams = new URLSearchParams(window.location.search);
+                // The monaco editor can be disabled by appending plaineditor to the URL
+                const plainEditor = document.getElementById("query-plaineditor");
+                if (urlParams.get('plaineditor') == null) {
+                    plainEditor.remove();
+                    console.info("Loading monaco editor");
+                    require.config({ paths: { vs: 'js/monaco-editor/vs' } });
+                    require(['vs/editor/editor.main'], function () {
+                        const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                        colorMode
+                        window.editor = monaco.editor.create(document.getElementById('query-editor'), {
+                            language: 'sql',
+                            fontSize: 20,
+                            minimap: {
+                                enabled: false,
+                            },
+                            theme: `vs-${colorMode}`,
+                            automaticLayout: true
+                        });
+                        window.monaco = monaco;
+                    });
+                } else {
+                    window.editor = {
+                        getValue() {
+                            return plainEditor.value;
+                        },
+                        setValue(val) {
+                            plainEditor.value = val;
+                        }
+                    };
+                }
+            </script>
             <div class="my-2">
-                <h3 class="mb-3">
-                    <i class="bi bi-table"></i>
-                    Resultaten
-                </h3>
                 <query-result />
             </div>
         </main>
@@ -159,10 +148,16 @@
     <template id="template-query-result">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <div class="mb-3">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+        <div class="d-flex align-items-end gap-2 mb-2 flex-wrap justify-content-between">
+            <h3>
+                <i class="bi bi-table me-auto"></i>
+                Resultaten
+            </h3>
+            <div id="result-stats" style="max-width: 600px;"></div>
             <div class="btn-toolbar justify-content-between">
                 <div class="result-pagination"></div>
-                <div id="result-stats" style="max-width: 600px;"></div>
             </div>
         </div>
         <div id="result-message" class="mb-2">
@@ -180,7 +175,7 @@
                 <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
             </div>
         </div>
-        <div class="py-3 mb-3">
+        <div class="mb-3 d-flex justify-content-end">
             <div class="btn-toolbar justify-content-between">
                 <div class="result-pagination"></div>
             </div>
