@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl">
+<html lang="nl" style="font-size: 15px;">
 
 <head>
     <meta charset="utf8">
@@ -71,12 +71,16 @@
                     </div>
                     <div class="col">
                         <div id="query-editor" class="mb-3 border rounded" style="width: 100%; height: 14rem;">
+                            <textarea id="query-plaineditor" class="form-control font-monospace fs-5" rows="6"
+                                placeholder="Type hier een SQL query.." style="width: 100%; height: 100%;"></textarea>
                         </div>
                         <script src="js/monaco-editor/vs/loader.js"></script>
                         <script>
                             const urlParams = new URLSearchParams(window.location.search);
-                            // The monaco editor can be disabled with appending plaineditor to the URL
+                            // The monaco editor can be disabled by appending plaineditor to the URL
+                            const plainEditor = document.getElementById("query-plaineditor");
                             if (urlParams.get('plaineditor') == null) {
+                                plainEditor.remove();
                                 console.info("Loading monaco editor");
                                 require.config({ paths: { vs: 'js/monaco-editor/vs' } });
                                 require(['vs/editor/editor.main'], function () {
@@ -92,6 +96,15 @@
                                     });
                                     window.monaco = monaco;
                                 });
+                            } else {
+                                window.editor = {
+                                    getValue() {
+                                        return plainEditor.value;
+                                    },
+                                    setValue(val) {
+                                        plainEditor.value = val;
+                                    }
+                                };
                             }
                         </script>
                     </div>
@@ -109,7 +122,7 @@
     <div class="container-xl">
         <footer class="d-flex flex-wrap align-items-center justify-content-between py-3 mx-5">
             <span class="text-muted">By Rijk van Putten</span>
-            <span class="text-muted">MySQL Querier, versie 2.0</span>
+            <span class="text-muted">MySQL Querier, versie 2.1</span>
         </footer>
     </div>
     <!-- HTML Templates -->
