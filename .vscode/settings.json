@@ -13,6 +13,6 @@
     "editor.fontSize": 14,
     "terminal.integrated.fontSize": 14,
     "git.autofetch": true,
-    "git.inputValidation": "off",
+    "git.inputValidation": false,
     "window.autoDetectColorScheme": true
 }
