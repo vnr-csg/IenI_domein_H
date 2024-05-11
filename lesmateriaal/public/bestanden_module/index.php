@@ -48,16 +48,16 @@
                     <div class="col m-2 px-5 py-1">
                         <div class="mb-5">
                         <h2>
-                            <i class="bi bi-2-circle-fill"></i>
-                            Hoofdstuk 2
+                            <i class="bi bi-3-circle-fill"></i>
+                            Hoofdstuk 3
                             </h2>
                             <?php
-                                $files = scandir("H2/");
+                                $files = scandir("H3/");
                                 $ignored_files = [".", ".."];
                                 echo "<ul>";
                                 foreach ($files as $file) {
                                     if (!in_array($file, $ignored_files)) {
-                                        echo '<li><a title="' . $file . '" href="/lesmateriaal/bestanden_module/H2/' . $file . '" target="_blank"><strong>' . $file . '</strong></a></li>';
+                                        echo '<li><a title="' . $file . '" href="/lesmateriaal/bestanden_module/H3/' . $file . '" target="_blank"><strong>' . $file . '</strong></a></li>';
                                     }
                                 }
                             ?>
@@ -67,6 +67,12 @@
                                 <i class="bi bi-person-workspace"></i>
                                 Extern
                             </h2>                            
+                            <ul>
+                                <li><a href="https://www.ted.com/talks/mark_liddell_how_statistics_can_be_misleading?subtitle=en" target="_blank"><strong>H3O05 TED misleading data</strong></a></li>
+                                <li><a href="https://www.rivm.nl/corona/actueel/weekcijfers" target="_blank"><strong>H3O06 RIVM Weekcijfers coronavirus</strong></a></li>
+                                <li><a href="https://ourworldindata.org/explorers/coronavirus-data-explorer?tab=map&zoomToSelection=true&time=2020-01-17&region=Europe&facet=none&country=FRA~ESP~ITA~DEU~IND~BRA~MEX~RUS~BEL&pickerSort=asc&pickerMetric=location&Metric=Confirmed+deaths&Interval=Cumulative&Relative+to+Population=false&Color+by+test+positivity=false" target="_blank"><strong>H3O06 Our World in Data: COVID-19 deaths</strong></a></li>
+                                <li><a href="https://aatishb.com/covidtrends/?data=deaths&location=Belgium&location=Brazil&location=Canada&location=France&location=Germany&location=India&location=Italy&location=Mexico&location=Netherlands&location=Russia&location=Spain&location=US" target="_blank"><strong>H3O06 Aatishb: Covid 19 reported Deaths</strong></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
