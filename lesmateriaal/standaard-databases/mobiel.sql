@@ -26,7 +26,7 @@ CREATE TABLE `aankopen` (
 INSERT INTO `vrienden` (`id`, `naam`, `plaats`) VALUES
 (1, 'Alan', 'Groningen'),
 (2, 'Bob', 'Assen'),
-(3, 'Christel', 'Heerlen'),
+(3, 'Christel', 'Heerlen'), 
 (4, 'Daphne', 'Groningen'),
 (5, 'Eve', 'Heerlen'),
 (6, 'Frits', 'Delft'),
@@ -42,13 +42,13 @@ INSERT INTO `telefoons` (`code`, `merk`, `type`) VALUES
 ('g2', 'Google', 'Pixel 7'),
 ('o1', 'OnePlus', '11'),
 ('s1', 'Samsung', 'Galaxy A23'),
-('s2', 'Samsung', 'Galaxy S23'),
+('s2', 'Samsung', 'Galaxy S23'), 
 ('s3', 'Samsung', 'Z flip 4'),
 ('x1', 'Xiaomi', '12 Lite'),
 ('x2', 'Xiaomi', '12X');
 
-INSERT INTO `aankopen` (`id`, `code`, `prijs`) VALUES
-(1, 'a1', 819),
+INSERT INTO `aankopen` (`id`, `code`, `prijs`) VALUES 
+(1, 'a1', 819), 
 (6, 'a1', 849),
 (4, 'a2', 929),
 (8, 'g2', 589),

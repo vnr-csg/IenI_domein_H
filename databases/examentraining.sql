@@ -1,1 +1,1 @@
-DROP DATABASE IF EXISTS `examentraining`;
+DROP DATABASE IF EXISTS `examentraining`;  
