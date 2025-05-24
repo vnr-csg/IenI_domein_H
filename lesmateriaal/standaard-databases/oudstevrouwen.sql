@@ -28,7 +28,7 @@ INSERT INTO vrouwen (id, naam, geboortedatum, land, sterfdatum, leeftijd) VALUES
   (12, 'Carrie C. White', '1874-11-18', 'Verenigde Staten', '1991-02-14', 116),
   (13, 'Maggie Barnes', '1882-03-06', 'Verenigde Staten', '1998-01-19', 115),
   (14, 'Kamato Hongo', '1887-09-16', 'Japan', '2003-10-31', 116),
-  (15, 'Mamie Eva Keith', '1873-03-22', ' Verenigde Staten', '1984-10-14', 111),
+  (15, 'Mamie Eva Keith', '1873-03-22', 'Verenigde Staten', '1984-10-14', 111),
   (16, 'Dina Manfredini', '1897-04-04', 'Italië', '2012-12-17', 115),
   (17, 'Besse Cooper', '1896-08-26', 'Verenigde Staten', '2012-12-04', 116),
   (18, 'Jiroemon Kimura', '1897-04-19', 'Japan', '2013-06-12', 116),
